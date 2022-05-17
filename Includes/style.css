@@ -17,3 +17,16 @@ form{
     margin-right: auto;
    text-align: center;
 }
+
+.btn-sm{
+    width: 60%;
+    margin: 1%;
+}
+
+.look-up{
+    padding: 5%;
+}
+
+.look-up-table{
+    width: fit-content;
+}
