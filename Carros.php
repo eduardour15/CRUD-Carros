@@ -1,5 +1,4 @@
 <?php
-//(id, placa, modelo, marca, descripción)
 class Carro
 {
     public $marca;

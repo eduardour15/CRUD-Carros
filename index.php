@@ -1,3 +1,7 @@
+<?php
+include "Carros.php";
+include "Class/Conecta.php";
+?>
 <!DOCTYPE html>
 <html lang="en">
 
@@ -26,7 +30,7 @@
 
                     <body class="card-body row g-3">
 
-                        <form class="row g-3" action="Class/procesa_carros.php" method="post">
+                        <form class="row g-3" action="procesa_carros.php" method="post">
                             <div class="col-md-6">
                                 <label class="form-label">Marca</label>
                                 <input type="text" class="form-control" placeholder="Nissan" name="marca">
