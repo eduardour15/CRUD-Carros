@@ -1,6 +1,8 @@
 <?php
 include "Carros.php";
 include "Class/Conecta.php";
+$consulta = "SELECT * FROM carros";
+$almacena = $conecta->query($consulta);
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -63,40 +65,57 @@ include "Class/Conecta.php";
             </div>
 
             <div class="col">
-                <div class="card ">
-                    <header class="card-header">
-                        <h2>Buscar un Carro por Placa</h2>
-                    </header>
-                    <form action="">
+                <header class="card-header">
+                    <h2>Buscar un Carro por Placa</h2>
+                </header>
 
-                        <body class="card-body cuerpo">
-                            <div class="col-12">
-                                <label class="form-label">Buscar placa</label>
-                                <input class="typeahead form-control" type="text" placeholder="Buscar placa....">
-                            </div>
-                            <br>
-                            <div class="d-grid gap-2">
-                                <button class="btn btn-success" type="submit">Buscar</button>
-                            </div>
-                            <br>
-
-                            <div class="row">
-                                <div class="col-md-4">
-                                    <img src=" " class="img-fluid rounded-start" alt="...">
-                                </div>
-                                <div class="col-md-8">
-                                    <div class="card-body" style="background-color:#f8f9fa;">
-                                        <h5 class="card-title">ACA IRA INFORMACION</h5>
-                                        <p class="card-text">This is a wider card with supporting text below as a natural lead-in to additional content. This content is a little bit longer.</p>
-                                        <button type="submit" class="btn btn-secondary btn-sm">Editar</button>
+                <body>
+                    <form action="<?php echo htmlspecialchars($_SERVER['PHP_SELF']) ?>" class="look-up" method="post">
+                        <div class="col-12">
+                            <label class="form-label">Buscar placa</label>
+                            <input class="typeahead form-control" type="text" placeholder="Buscar placa...." name="busPlaca">
+                        </div> <br>
+                        <div class="d-grid gap-2">
+                            <button class="btn btn-success" type="submit" name="buscar">Buscar</button>
+                        </div>
+                        <table class="table table-hover look-up-table">
+                            <thead>
+                                <th>Id</th>
+                                <th>Placa</th>
+                                <th>Marca</th>
+                                <th>Modelo</th>
+                                <th>Descripción</th>
+                                <th>Acción</th>
+                            </thead>
+                        <?php
+                        if(isset($_POST["buscar"])){
+                        while($tempo=$almacena->fetch_assoc()){
+                            if($tempo["placa"]==$_POST["busPlaca"]){ ?>
+                                <tbody>
+                                <tr>
+                                    <td> <?php echo $tempo['id'] ?></td>
+                                    <td> <?php echo $tempo['placa'] ?></td>
+                                    <td> <?php echo $tempo['marca'] ?></td>
+                                    <td> <?php echo $tempo['modelo'] ?></td>
+                                    <td> <?php echo $tempo['descripcion'] ?></td>
+                                    <td>
+                                        <button type="submit" class="btn btn-secondary btn-sm">Editar </button>
                                         <button type="submit" class="btn btn-danger btn-sm">Eliminar</button>
-                                    </div>
-                                </div>
-                            </div>
-
-                        </body>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        <?php
+                            break;
+                            } 
+                        }
+                        
+                    }
+                        ?>
+                        
+                            
+                        </table>
                     </form>
-                </div>
+                </body>
             </div>
         </div>
         <div class="row">
@@ -105,7 +124,6 @@ include "Class/Conecta.php";
                 <thead>
                     <tr>
                         <th>#</th>
-                        <th>Foto</th>
                         <th>Id</th>
                         <th>Placa</th>
                         <th>Marca</th>
@@ -113,17 +131,22 @@ include "Class/Conecta.php";
                         <th>Descripción</th>
                     </tr>
                 </thead>
-                <tr>
-                    <td></td>
-                    <td></td>
-                    <td></td>
-                    <td></td>
-                    <td></td>
-                    <td></td>
-                    <td></td>
-                </tr>
                 <tbody>
-
+                    <?php
+                    $almacena2=$conecta->query($consulta);
+                    $i = 1;
+                    while ($almc = $almacena2->fetch_assoc()) { ?>
+                        <tr>
+                            <td><?php echo $i; ?></td>
+                            <td> <?php echo $almc['id']; ?></td>
+                            <td> <?php echo $almc['placa']; ?></td>
+                            <td> <?php echo $almc['marca']; ?></td>
+                            <td> <?php echo $almc['modelo']; ?></td>
+                            <td> <?php echo $almc['descripcion']; ?></td>
+                        </tr>
+                    <?php
+                        $i++;
+                    } ?>
                 </tbody>
             </table>
 
