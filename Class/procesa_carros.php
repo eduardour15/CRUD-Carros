@@ -1,6 +1,6 @@
 <?php
 include "Carros.php";
-include "Class/Conecta.php";
+include "Conecta.php";
 
 if (isset($_POST["enviar"])) {
    

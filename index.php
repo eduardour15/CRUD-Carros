@@ -1,5 +1,5 @@
 <?php
-include "Carros.php";
+include "Class/Carros.php";
 include "Class/Conecta.php";
 $consulta = "SELECT * FROM carros";
 $almacena = $conecta->query($consulta);
@@ -32,7 +32,7 @@ $almacena = $conecta->query($consulta);
 
                     <body class="card-body row g-3">
 
-                        <form class="row g-3" action="procesa_carros.php" method="post">
+                        <form class="row g-3" action="Class/procesa_carros.php" method="post">
                             <div class="col-md-6">
                                 <label class="form-label">Marca</label>
                                 <input type="text" class="form-control" placeholder="Nissan" name="marca">
@@ -87,32 +87,36 @@ $almacena = $conecta->query($consulta);
                                 <th>Descripción</th>
                                 <th>Acción</th>
                             </thead>
-                        <?php
-                        if(isset($_POST["buscar"])){
-                        while($tempo=$almacena->fetch_assoc()){
-                            if($tempo["placa"]==$_POST["busPlaca"]){ ?>
-                                <tbody>
-                                <tr>
-                                    <td> <?php echo $tempo['id'] ?></td>
-                                    <td> <?php echo $tempo['placa'] ?></td>
-                                    <td> <?php echo $tempo['marca'] ?></td>
-                                    <td> <?php echo $tempo['modelo'] ?></td>
-                                    <td> <?php echo $tempo['descripcion'] ?></td>
-                                    <td>
-                                        <button type="submit" class="btn btn-secondary btn-sm">Editar </button>
-                                        <button type="submit" class="btn btn-danger btn-sm">Eliminar</button>
-                                    </td>
-                                </tr>
-                            </tbody>
-                        <?php
-                            break;
-                            } 
-                        }
-                        
-                    }
-                        ?>
-                        
-                            
+                            <?php
+                            $find=false;
+                            if (isset($_POST["buscar"])) {
+                                while ($tempo = $almacena->fetch_assoc()) {
+                                    if ($tempo["placa"] == $_POST["busPlaca"]) { ?>
+                                        <tbody>
+                                            <tr>
+                                                <td> <?php echo $tempo['id'] ?></td>
+                                                <td> <?php echo $tempo['placa'] ?></td>
+                                                <td> <?php echo $tempo['marca'] ?></td>
+                                                <td> <?php echo $tempo['modelo'] ?></td>
+                                                <td> <?php echo $tempo['descripcion'] ?></td>
+                                                <td>
+                                                    <?php echo' <a href="Class/edita.php?placa='.$tempo["placa"]. '" type="submit" class="btn btn-secondary btn-sm">Editar </a>' ;
+                                                   echo '<a href="Class/borra.php?placa='.$tempo["placa"].'"type="submit" class="btn btn-danger btn-sm">Eliminar</a>'; ?>
+                                                </td>
+                                            </tr>
+                                        </tbody>
+                            <?php
+                                        $find=true;
+                                        break;
+                                    }
+                                }
+                                if($find==false){
+                                  echo ' <br> <div class="alert alert-danger" role="alert">El carro con esa placa no fue encontrado</div>';
+                                }
+                            }
+                            ?>
+
+
                         </table>
                     </form>
                 </body>
@@ -133,7 +137,7 @@ $almacena = $conecta->query($consulta);
                 </thead>
                 <tbody>
                     <?php
-                    $almacena2=$conecta->query($consulta);
+                    $almacena2 = $conecta->query($consulta);
                     $i = 1;
                     while ($almc = $almacena2->fetch_assoc()) { ?>
                         <tr>
